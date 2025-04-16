@@ -1,0 +1,63 @@
+/*
+ * Gradle build file for ClickHouse + Flat File Data Ingestion Tool
+ */
+
+plugins {
+    id 'application'
+    id 'java'
+    // Add Spring Boot plugin if you're using Spring (optional)
+    id 'org.springframework.boot' version '3.1.5'
+    id 'io.spring.dependency-management' version '1.1.3'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // ClickHouse JDBC Driver
+    implementation 'com.clickhouse:clickhouse-jdbc:0.4.6'
+    
+    // CSV Processing
+    implementation 'com.opencsv:opencsv:5.7.1'
+    
+    // Web Application (Spring Boot Starter Web - if using Spring)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // JWT Support (if needed for ClickHouse auth)
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3',
+                'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    
+    // Lombok for boilerplate reduction
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+testing {
+    suites {
+        test {
+            useJUnitJupiter('5.11.3')
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    // Update this to your main application class
+    mainClass = 'com.yourpackage.MainApplication'
+}
+
+// For Spring Boot projects (optional)
+bootJar {
+    archiveFileName = 'clickhouse-ingestion-tool.jar'
+}
